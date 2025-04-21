@@ -1,8 +1,5 @@
 export class ClientConnectedEvent<T> {
-  readonly user = new Promise<T>((resolve, reject) => {
-    this.resolve = resolve;
-    this.reject = reject;
-  });
+  readonly user: Promise<T>;
 
   resolve: (value: T) => void;
 
@@ -10,5 +7,10 @@ export class ClientConnectedEvent<T> {
 
   constructor(
     public readonly accessToken: string,
-  ) {}
+  ) {
+    this.user = new Promise<T>((resolve, reject) => {
+      this.resolve = resolve;
+      this.reject = reject;
+    });
+  }
 }
