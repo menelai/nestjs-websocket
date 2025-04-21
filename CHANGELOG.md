@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/menelai/nestjs-websocket/compare/v1.0.0...v1.0.1) (2025-04-21)
+
+
+### Bug Fixes
+
+* export events ([95c997f](https://github.com/menelai/nestjs-websocket/commit/95c997f6804bd8906ff14bd608eacd913b75b561))
+
 # 1.0.0 (2025-04-21)
 
 
