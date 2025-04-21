@@ -1,3 +1,10 @@
+# 1.0.0 (2025-04-21)
+
+
+### Bug Fixes
+
+* init ([3a986b4](https://github.com/menelai/nestjs-websocket/commit/3a986b4e2730184f25d42ed3a9292e06c4019ff4))
+
 # [1.2.0](https://github.com/menelai/nestjs-tools/compare/v1.1.0...v1.2.0) (2025-04-16)
 
 
