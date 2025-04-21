@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/menelai/nestjs-websocket/compare/v1.0.1...v1.0.2) (2025-04-21)
+
+
+### Bug Fixes
+
+* move user in constructor ([71301ea](https://github.com/menelai/nestjs-websocket/commit/71301eac6e64b8f432306fd0085ae2636e4e8eef))
+
 ## [1.0.1](https://github.com/menelai/nestjs-websocket/compare/v1.0.0...v1.0.1) (2025-04-21)
 
 
