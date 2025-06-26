@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/menelai/nestjs-websocket/compare/v1.1.0...v1.1.1) (2025-06-26)
+
+
+### Bug Fixes
+
+* include client-ready.event ([8481526](https://github.com/menelai/nestjs-websocket/commit/848152657763a6b45c76904de91f1f9f699d2728))
+
 # [1.1.0](https://github.com/menelai/nestjs-websocket/compare/v1.0.3...v1.1.0) (2025-06-26)
 
 
