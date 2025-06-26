@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/menelai/nestjs-websocket/compare/v1.0.3...v1.1.0) (2025-06-26)
+
+
+### Features
+
+* send message ([f205c71](https://github.com/menelai/nestjs-websocket/commit/f205c71c24449cb9712dbf91e1515b6b475ca2d5))
+
 ## [1.0.3](https://github.com/menelai/nestjs-websocket/compare/v1.0.2...v1.0.3) (2025-06-26)
 
 
