@@ -14,6 +14,7 @@ import {IncomingMessage} from 'http';
 
 import {AuthWebSocket} from '@/dto/auth-web-socket';
 import {ClientConnectedEvent} from '@/events/impl/client-connected.event';
+import {ClientReadyEvent} from '@/events/impl/client-ready.event';
 import {IsAllowedToWatchEvent} from '@/events/impl/is-allowed-to-watch.event';
 import p from '@/path';
 import {WsService} from '@/ws.service';
@@ -87,6 +88,8 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.wsService.addClient(roomId, authClient);
 
       ok(true);
+
+      this.eventBus.publish(new ClientReadyEvent(roomId));
 
     } catch (e) {
       console.error(e);
