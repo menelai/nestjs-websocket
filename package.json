@@ -1,6 +1,6 @@
 {
   "name": "@kovalenko/nestjs-websocket",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Common websocket for my backends",
   "author": "kovalenko@gmail.com",
   "license": "MIT",
