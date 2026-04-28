@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/menelai/nestjs-websocket/compare/v1.1.1...v1.2.0) (2026-04-28)
+
+
+### Features
+
+* HTTP incoming message in ClientConnectedEvent ([7bc5b13](https://github.com/menelai/nestjs-websocket/commit/7bc5b1369499374b03fba7a0a30bd2e4acc613eb))
+
 ## [1.1.1](https://github.com/menelai/nestjs-websocket/compare/v1.1.0...v1.1.1) (2025-06-26)
 
 
