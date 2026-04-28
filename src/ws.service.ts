@@ -20,26 +20,28 @@ export class WsService implements OnModuleInit {
 
   onModuleInit(): void {
     // если юзер разлогинивается, отключить его от вебсокетов на всех инстансах
-    this.eventBus.pipe(
-      ofType(ClientDisconnectedEvent),
-    ).subscribe({
-      next: ({id, accessToken}) => {
-        this.disconnect(id, accessToken);
-      },
-    });
+    this.eventBus
+      .pipe(
+        ofType(ClientDisconnectedEvent),
+      )
+      .subscribe({
+        next: ({id, deviceFingerprint}) => {
+          this.disconnect(id, deviceFingerprint);
+        },
+      });
   }
 
   get connectedUsers(): string[] {
     return Object.keys(this.connectedSockets);
   }
 
-  disconnectSocketsByAccessToken(userId: string, accessToken: string): void {
+  disconnectSocketsByDeviceFingerprint(userId: string, deviceFingerprint: string): void {
     if (!this.connectedSockets[userId]) {
       return;
     }
 
     this.connectedSockets[userId] = this.connectedSockets[userId].filter(p => {
-      if (p.accessToken === accessToken) {
+      if (p.deviceFingerprint === deviceFingerprint) {
         p.close();
         return false;
       } else {
@@ -56,12 +58,12 @@ export class WsService implements OnModuleInit {
     return this.connectedSockets[userId] || null;
   }
 
-  disconnect(roomId?: string, accessToken?: string): void {
-    if (!roomId || !accessToken) {
+  disconnect(roomId?: string, deviceFingerprint?: string): void {
+    if (!roomId || !deviceFingerprint) {
       return;
     }
 
-    this.disconnectSocketsByAccessToken(roomId, accessToken);
+    this.disconnectSocketsByDeviceFingerprint(roomId, deviceFingerprint);
   }
 
   async sendMessage<T>(

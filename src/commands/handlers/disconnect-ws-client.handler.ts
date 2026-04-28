@@ -10,7 +10,7 @@ export class DisconnectWsClientHandler implements ICommandHandler<DisconnectWsCl
     private readonly wsService: WsService,
   ) { }
 
-  async execute({id, accessToken}: DisconnectWsClientCommand): Promise<void> {
-    this.wsService.disconnect(id, accessToken);
+  async execute({id, deviceFingerprint}: DisconnectWsClientCommand): Promise<void> {
+    this.wsService.disconnect(id, deviceFingerprint);
   }
 }

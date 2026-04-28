@@ -69,9 +69,8 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     try {
       let ok: (value: boolean) => void;
       authClient.isAuthorized = new Promise<boolean>(resolve => ok = resolve);
-      const accessToken = incomingMessage.headers['sec-websocket-protocol'] as string;
 
-      const e = new ClientConnectedEvent<{id: string}>(accessToken);
+      const e = new ClientConnectedEvent<{id: string, deviceFingerprint: string}>(incomingMessage);
       this.eventBus.publish(e);
       const user = await e.user;
 
@@ -80,7 +79,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       Object.assign(authClient, {
         id: nanoid(),
         roomId,
-        accessToken,
+        deviceFingerprint: user.deviceFingerprint,
         user,
         watching: new Set<string>(),
       });

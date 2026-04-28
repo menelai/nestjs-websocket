@@ -7,7 +7,7 @@ export interface AuthWebSocket<T extends {id: string} = {id: string}, W = string
 
   roomId: string;
 
-  accessToken: string;
+  deviceFingerprint: string;
 
   user: T;
 
