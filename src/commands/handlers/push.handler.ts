@@ -11,7 +11,7 @@ export class PushHandler implements ICommandHandler<PushCommand> {
     private readonly wsService: WsService,
   ) { }
 
-  async execute({event, data, allow, toWatchingOnly}: PushCommand): Promise<void> {
+  async execute({event, data, allow, isWatchingOrPayload}: PushCommand): Promise<void> {
     const payload = instanceToPlain(data);
     const connectedUsers = this.wsService.connectedUsers;
     for (const userId of connectedUsers) {
@@ -22,7 +22,7 @@ export class PushHandler implements ICommandHandler<PushCommand> {
           allow == null
           || typeof allow === 'function' && await Promise.resolve(allow(user))
         ) {
-          this.wsService.sendMessage(userId, event, payload, toWatchingOnly).catch(error => {
+          this.wsService.sendMessage(userId, event, payload, isWatchingOrPayload).catch(error => {
             console.error('ws send error', error);
           });
         }

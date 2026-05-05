@@ -3,6 +3,7 @@ export class IsAllowedToWatchEvent {
 
   constructor(
     public event: string,
+    public payload: string | null,
     public userId: string,
   ) { }
 

@@ -1,4 +1,4 @@
-import {ParseArrayPipe} from '@nestjs/common';
+import {ValidationPipe} from '@nestjs/common';
 import {EventBus} from '@nestjs/cqrs';
 import {
   ConnectedSocket,
@@ -13,6 +13,7 @@ import {nanoid} from 'nanoid';
 import {IncomingMessage} from 'http';
 
 import {AuthWebSocket} from '@/dto/auth-web-socket';
+import {WatchEventDto} from '@/dto/watch-event.dto';
 import {ClientConnectedEvent} from '@/events/impl/client-connected.event';
 import {ClientReadyEvent} from '@/events/impl/client-ready.event';
 import {IsAllowedToWatchEvent} from '@/events/impl/is-allowed-to-watch.event';
@@ -31,38 +32,51 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('watch')
   async watch(
-    @MessageBody(new ParseArrayPipe({items: String})) events: string[],
+    @MessageBody(new ValidationPipe({whitelist: true, transform: true})) {event, payload}: WatchEventDto,
     @ConnectedSocket() client: AuthWebSocket,
   ): Promise<void> {
     await client.isAuthorized;
 
-    events.forEach(event => {
-      if (client.watching.has(event)) {
-        return;
-      }
+    payload ??= null;
 
-      const isAllowedEvent = new IsAllowedToWatchEvent(event, client.roomId);
-      this.eventBus.publish(isAllowedEvent);
-      isAllowedEvent.allowed().then(allowed => {
-        if (allowed) {
-          client.watching.add(event);
-        } else {
-          this.wsService.sendMessage(client.roomId, 'watch', {event, forbidden: true});
+    if (client.watching.has(event) && (payload == null || client.watching.get(event).has(payload))) {
+      return;
+    }
+
+    const isAllowedEvent = new IsAllowedToWatchEvent(event, payload, client.roomId);
+    this.eventBus.publish(isAllowedEvent);
+    isAllowedEvent.allowed().then(allowed => {
+      if (allowed) {
+        let arr = client.watching.get(event);
+        if (!arr) {
+          arr = new Set;
+          client.watching.set(event, arr);
         }
-      });
+
+        arr.add(payload);
+
+      } else {
+        this.wsService.sendMessage(client.roomId, 'watch', {event, payload, forbidden: true});
+      }
     });
   }
 
   @SubscribeMessage('unwatch')
   async unwatch(
-    @MessageBody(new ParseArrayPipe({items: String})) events: string[],
+    @MessageBody(new ValidationPipe({whitelist: true, transform: true})) {event, payload}: WatchEventDto,
     @ConnectedSocket() client: AuthWebSocket,
   ): Promise<void> {
     await client.isAuthorized;
 
-    events.forEach(event => {
-      client.watching.delete(event);
-    });
+    payload ??= null;
+
+    const arr = client.watching.get(event);
+    if (arr) {
+      arr.delete(payload);
+      if (arr.size === 0) {
+        client.watching.delete(event);
+      }
+    }
   }
 
   async handleConnection(authClient: AuthWebSocket, incomingMessage: IncomingMessage): Promise<void> {
@@ -81,7 +95,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
         roomId,
         deviceFingerprint: user.deviceFingerprint,
         user,
-        watching: new Set<string>(),
+        watching: new Map<string, string[]>(),
       });
 
       this.wsService.addClient(roomId, authClient);

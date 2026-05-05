@@ -70,10 +70,18 @@ export class WsService implements OnModuleInit {
     userId: string,
     event: string,
     data: T,
-    toWatchingOnly?: boolean,
+    isWatchingOrPayload?: boolean | string,
   ): Promise<void> {
     this.getConnectedSocketsByRoom(userId)?.forEach(socket => {
-      if ((!toWatchingOnly || socket.watching.has(event)) && socket.readyState === 1) {
+      if (
+        (
+          isWatchingOrPayload === undefined
+          || isWatchingOrPayload === false
+          || socket.watching.has(event)
+            && (typeof isWatchingOrPayload !== 'string' || socket.watching.get(event).has(isWatchingOrPayload))
+        )
+        && socket.readyState === 1
+      ) {
         try {
           socket.send(JSON.stringify({
             event,

@@ -3,6 +3,6 @@ export class SendMessageCommand {
     public readonly userId: string,
     public readonly event: string,
     public readonly data: any,
-    public readonly toWatchingOnly?: boolean,
+    public readonly isWatchingOrPayload?: boolean | string,
   ) { }
 }

@@ -11,9 +11,9 @@ export class SendMessageHandler implements ICommandHandler<SendMessageCommand> {
     private readonly wsService: WsService,
   ) { }
 
-  async execute({userId, event, data, toWatchingOnly}: SendMessageCommand): Promise<void> {
+  async execute({userId, event, data, isWatchingOrPayload}: SendMessageCommand): Promise<void> {
     const payload = instanceToPlain(data);
 
-    await this.wsService.sendMessage(userId, event, payload, toWatchingOnly);
+    await this.wsService.sendMessage(userId, event, payload, isWatchingOrPayload);
   }
 }

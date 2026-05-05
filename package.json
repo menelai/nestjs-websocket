@@ -18,7 +18,8 @@
     "@nestjs/common": ">=10",
     "@nestjs/cqrs": ">=10",
     "@nestjs/websockets": ">=10",
-    "nanoid": ""
+    "nanoid": "",
+    "class-validator": ""
   },
   "devDependencies": {
     "@kovalenko/eslint": "^1.0.1",

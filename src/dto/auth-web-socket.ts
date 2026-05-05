@@ -11,5 +11,5 @@ export interface AuthWebSocket<T extends {id: string} = {id: string}, W = string
 
   user: T;
 
-  watching: Set<W>;
+  watching: Map<W, Set<string | null>>;
 }
