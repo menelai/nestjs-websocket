@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/menelai/nestjs-websocket/compare/v1.2.0...v1.3.0) (2026-05-05)
+
+
+### Features
+
+* granular watch ([907275d](https://github.com/menelai/nestjs-websocket/commit/907275d14a9fc97029554d90cca9897e64cc3c4e))
+
 # [1.2.0](https://github.com/menelai/nestjs-websocket/compare/v1.1.1...v1.2.0) (2026-04-28)
 
 
