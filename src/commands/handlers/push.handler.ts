@@ -1,5 +1,4 @@
 import {CommandHandler, ICommandHandler} from '@nestjs/cqrs';
-import {instanceToPlain} from 'class-transformer';
 
 import {PushCommand} from '@/commands/impl/push.command';
 import {WsService} from '@/ws.service';
@@ -12,7 +11,6 @@ export class PushHandler implements ICommandHandler<PushCommand> {
   ) { }
 
   async execute({event, data, allow, isWatchingOrPayload}: PushCommand): Promise<void> {
-    const payload = instanceToPlain(data);
     const connectedUsers = this.wsService.connectedUsers;
     for (const userId of connectedUsers) {
       const sockets = this.wsService.getConnectedSocketsByRoom(userId);
@@ -22,7 +20,7 @@ export class PushHandler implements ICommandHandler<PushCommand> {
           allow == null
           || typeof allow === 'function' && await Promise.resolve(allow(user))
         ) {
-          this.wsService.sendMessage(userId, event, payload, isWatchingOrPayload).catch(error => {
+          this.wsService.sendMessage(userId, event, data, isWatchingOrPayload).catch(error => {
             console.error('ws send error', error);
           });
         }
