@@ -20,7 +20,11 @@ export class PushHandler implements ICommandHandler<PushCommand> {
           allow == null
           || typeof allow === 'function' && await Promise.resolve(allow(user))
         ) {
-          this.wsService.sendMessage(userId, event, data, isWatchingOrPayload).catch(error => {
+          const payload = typeof data === 'function'
+            ? await Promise.resolve(data(user))
+            : data;
+
+          this.wsService.sendMessage(userId, event, payload, isWatchingOrPayload).catch(error => {
             console.error('ws send error', error);
           });
         }
