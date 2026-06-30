@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/menelai/nestjs-websocket/compare/v1.3.1...v1.4.0) (2026-06-30)
+
+
+### Features
+
+* push data as a callback ([756c409](https://github.com/menelai/nestjs-websocket/commit/756c409f2558ea7d9ea25759fe6fb2738e5740ad))
+
 ## [1.3.1](https://github.com/menelai/nestjs-websocket/compare/v1.3.0...v1.3.1) (2026-06-19)
 
 
